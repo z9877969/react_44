@@ -1,0 +1,34 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 15px;
+  background-color: rgba(4, 53, 122, 0.9);
+}
+
+.navList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 auto;
+}
+
+.navItem:not(:last-child) {
+  margin-right: 10px;
+}
+
+.navLink {
+  font-size: 22px;
+  padding: 10px 35px;
+  background-color: #ffff0080;
+  border: 1px solid yellowgreen;
+  border-radius: 5px;
+  text-decoration: none;
+
+  &.activeLink {
+    border: 2px solid rgb(240, 237, 45);
+    color: rgb(30, 16, 16);
+  }
+}
