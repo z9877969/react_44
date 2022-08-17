@@ -1,12 +1,10 @@
-import { NavLink, useLocation } from "react-router-dom";
-import LangSelect from "../LangSelect/LangSelect";
+import { NavLink } from "react-router-dom";
 import s from "./Navigation.module.scss";
 
 const setActiveLinkClass = ({ isActive }) =>
   isActive ? `${s.navLink} ${s.activeLink}` : s.navLink;
 
 const Navigation = () => {
-
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>
@@ -26,7 +24,6 @@ const Navigation = () => {
           </NavLink>
         </li>
       </ul>
-      <LangSelect />
     </nav>
   );
 };

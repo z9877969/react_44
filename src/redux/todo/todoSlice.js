@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addTodoError, addTodoRequest, addTodoSuccess } from "./todoActions";
+import { getTodo } from "./todoOperations";
+
+console.log("getTodo :>> ", getTodo);
 
 const todoSlice = createSlice({
   name: "todo",
   initialState: {
     items: [],
     filter: "all",
-    // isLoading: false,
+    isLoading: false,
+    error: null,
   },
   reducers: {
     addTodo(state, { payload }) {
@@ -22,6 +27,30 @@ const todoSlice = createSlice({
     },
     changeFilter(state, { payload }) {
       state.filter = payload;
+    },
+  },
+  extraReducers: {
+    [addTodoRequest]: (state, action) => {
+      state.isLoading = true;
+    },
+    [addTodoSuccess]: (state, { payload }) => {
+      state.isLoading = false;
+      state.items = [...state.items, payload];
+    },
+    [addTodoError]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [getTodo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getTodo.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.items = payload;
+    },
+    [getTodo.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
     },
   },
 });

@@ -1,47 +1,38 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import logger from "redux-logger";
 import counterReducer from "./counter/counterSlice";
 import todo from "./todo/todoSlice";
-import lang from "./lang/langSlice";
 
-const todoPersistConfig = {
-  key: "todo",
-  version: 1,
-  storage,
-  whitelist: ["items"],
-};
+// const customLogger = (store) => {
+//   return (next) => {
+//     return (action) => {
+//       console.group("action: ", action.type);
+//       console.log("prevState", store.getState());
+//       console.log("action: ", action);
+//       next(action); // update state
 
-const langPersistConfig = {
-  key: "lang",
-  storage,
-  whitelist: ["value"],
-};
+//       console.log("nextState", store.getState());
+//       console.groupEnd();
+//     };
+//   };
+// };
 
-const todoPersistedReducer = persistReducer(todoPersistConfig, todo);
+// const thunk = (store) => (next) => (action) => {
+//   if (typeof action === "function") {
+//     action(store.dispatch, store.getState); // -> webApi
+//     return;
+//   }
+//   next(action);
+// };
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    todo: todoPersistedReducer,
-    lang: persistReducer(langPersistConfig, lang),
+    todo,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-  devTools: process.env.NODE_ENV !== "production",
+    getDefaultMiddleware()
+      .concat
+      // customLogger
+      (),
 });
-
-export const persistor = persistStore(store);
